@@ -9,7 +9,7 @@ CORS(app)
 
 # Loading haar cascade here
 
-CASCE_PATH = "haarcascade_frontalface_default.xml"
+CASCE_PATH = os.path.join(cv2.data.haarcascades,"haarcascade_frontalface_default.xml")
 
 print(CASCE_PATH)
 
