@@ -12,6 +12,7 @@ CORS(app)
 CASCE_PATH = os.path.join(cv2.data.haarcascades,"haarcascade_frontalface_default.xml")
 
 print(CASCE_PATH)
+print(dir(cv2.CascadeClassifier))
 
 face_cascade = cv2.CascadeClassifier(CASCE_PATH)
 
