@@ -1,9 +1,12 @@
-# from flask import Flask
-# from flask_cors import CORS
+from flask import Flask
+from flask_cors import CORS
 import os
 # from dotenv import load_dotenv
 
 # load_dotenv()
+
+app = Flask()
+CORS(app)
 
 import cv2
 
@@ -23,4 +26,8 @@ def opencv():
 opencv()
 
 
+if __name__ == "__main__":
+    print("server started..")
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
 
