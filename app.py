@@ -4,15 +4,11 @@ import os
 
 import cv2
 
-app = Flask(__name__)
-CORS(app)
-
-
 def opencv():
     cascade = cv2.data.haarcascades
     print(cascade)
 
-print(opencv)
+opencv()
 
 
 if __name__ == "__main__":
