@@ -2,9 +2,9 @@ from flask import Flask,jsonify
 from flask_cors import CORS
 import os
 import cv2
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 
 
