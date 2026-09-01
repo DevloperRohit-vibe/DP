@@ -18,10 +18,10 @@ from flask_cors import CORS
 import os
 import cv2
 import numpy as np
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import base64
 
-load_dotenv()
+# load_dotenv()
 
 image_path = "image2.webp"
 
@@ -75,7 +75,7 @@ def opencv():
 
             file_arrayRo = rotateImage(file_array)
 
-            base64_bytes = base64.b64encode(b64bytes)
+            base64_bytes = base64.b64encode(file_arrayRo)
             base64_string = base64_bytes.decode('utf-8')
 
             return jsonify({
