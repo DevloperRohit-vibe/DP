@@ -79,6 +79,7 @@ def opencv():
 
             sucess , imgenc = cv2.imencode('.jpg', roImgArr)
             if sucess:    
+                print("imgenc",imgenc)
                 base64_bytes = base64.b64encode(imgenc)
                 # base64_bytes = base64.b64encode(cv2.imencode('.jpg', roImgArr)[1])
                 print("base64_bytes",base64_bytes[:50])
