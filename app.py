@@ -18,10 +18,10 @@ from flask_cors import CORS
 import os
 import cv2
 import numpy as np
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import base64
 
-load_dotenv()
+# load_dotenv()
 
 image_path = "image2.webp"
 
