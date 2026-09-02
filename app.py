@@ -18,10 +18,10 @@ from flask_cors import CORS
 import os
 import cv2
 import numpy as np
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import base64
 
-# load_dotenv()
+load_dotenv()
 
 image_path = "image2.webp"
 
@@ -58,30 +58,37 @@ def process(image):
 
 
 def rotateImage(image) :
-    return  image.rotate(90)
+    rotated_image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+    return rotated_image
 
 @app.route("/", methods=['POST'])
 def opencv():
     try:
 
         if request.data :
+            # print("b64string",b64string)
             raw_data = request.get_data(parse_form_data=True)
-            data_url = raw_data.decode("utf8")
-            # prefixextr = data_url.split(",",1)[0]
-            prefixextr,b64string = data_url.split(",",1)[1]
+            data_url = raw_data.decode('utf-8')
+            print("REQUEST RECEIVED")
+            print("data_url",data_url[:50])
+            prefixstr,b64string = data_url.split(",",1)
             b64bytes = base64.b64decode(b64string)
             np_1d_array = np.frombuffer(b64bytes, dtype=np.uint8)
             file_array = cv2.imdecode(np_1d_array,cv2.IMREAD_COLOR)
+            roImgArr = rotateImage(file_array)
 
-            file_arrayRo = rotateImage(file_array)
-
-            base64_bytes = base64.b64encode(file_arrayRo)
-            base64_string = base64_bytes.decode('utf-8')
-
-            return jsonify({
-                "data": "image received",
-                "image": base64_string
-            })
+            sucess , imgenc = cv2.imencode('.jpg', roImgArr)
+            if sucess:    
+                print("imgenc",imgenc)
+                base64_bytes = base64.b64encode(imgenc)
+                # base64_bytes = base64.b64encode(cv2.imencode('.jpg', roImgArr)[1])
+                print("base64_bytes",base64_bytes[:50])
+                base64_string = base64_bytes.decode('utf-8')
+                print(base64_string[:50])
+                return jsonify({
+                    "prefix": prefixstr,
+                    "image": base64_string
+                })
 
             # print(file_array)
             # image = process(file_array)
@@ -93,7 +100,7 @@ def opencv():
             #     print(type(b64_bytes))
             #     print(type(b64_string))
             # return jsonify({
-            #     "prefix": prefixextr,
+            #     "prefix": prefixstr,
             #     "image": b64_string
             # })
 
@@ -108,7 +115,7 @@ def opencv():
         # print(f" HaarCadcade abs Path : {os.path.abspath(cascade+haarcascadeFIle)}\n HaarCascade Path Rel : {cascade}")
 
     except Exception as e:
-        print(e)
+        print("e")
 
 if __name__ == "__main__":
     print("server started..")
