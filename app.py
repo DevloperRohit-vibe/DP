@@ -21,6 +21,8 @@ import numpy as np
 # from dotenv import load_dotenv
 import base64
 
+from eye_angle import getEyeAngle
+
 # load_dotenv()
 
 image_path = "image2.webp"
@@ -75,7 +77,7 @@ def opencv():
             b64bytes = base64.b64decode(b64string)
             np_1d_array = np.frombuffer(b64bytes, dtype=np.uint8)
             file_array = cv2.imdecode(np_1d_array,cv2.IMREAD_COLOR)
-            roImgArr = rotateImage(file_array)
+            roImgArr, angle = getEyeAngle(file_array)
 
             sucess , imgenc = cv2.imencode('.jpg', roImgArr)
             if sucess:    
@@ -87,7 +89,8 @@ def opencv():
                 print(base64_string[:50])
                 return jsonify({
                     "prefix": prefixstr,
-                    "image": base64_string
+                    "image": base64_string,
+                    "angle": round(angle)
                 })
 
             # print(file_array)
